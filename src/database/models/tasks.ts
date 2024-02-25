@@ -3,11 +3,11 @@ import { type InferSelectModel, type InferInsertModel } from "drizzle-orm";
 
 import users from "./users";
 
+import { ITask } from "@/interfaces/tasks";
+
 const tasks = pgTable("tasks", {
 	id: serial("id").primaryKey().notNull(),
-	date: varchar("date").notNull(),
-	description: varchar("description").notNull(),
-	labels: jsonb("labels").$type<number[]>(),
+	tasks: jsonb("tasks").$type<ITask[]>().notNull(),
 	userId: integer("user_id")
 		.references(() => users.id)
 		.notNull(),

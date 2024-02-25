@@ -8,6 +8,13 @@
       "when": 1708823577421,
       "tag": "0000_third_stryfe",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1708875964944,
+      "tag": "0001_skinny_synch",
+      "breakpoints": true
     }
   ]
 }

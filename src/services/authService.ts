@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 import { UsersDb } from "../database/usersDb";
+import { TasksDb } from "../database/tasksDb";
 
 import { DuplicateUserError, InvalidParameterError, RefreshTokenError } from "../errors/customErrors";
 
@@ -9,9 +10,11 @@ import { GeneratedAuthTokens, ISignUpBody, IUser, JwtData, Token } from "../inte
 
 export class AuthService {
 	private usersDb: UsersDb;
+	private tsksDb: TasksDb;
 
-	constructor(usersDb: UsersDb) {
+	constructor(usersDb: UsersDb, tsksDb: TasksDb) {
 		this.usersDb = usersDb;
+		this.tsksDb = tsksDb;
 	}
 
 	getToken = (data: IUser, tokenType: Token) => {
@@ -40,6 +43,11 @@ export class AuthService {
 		const [response] = await this.usersDb.createUser({
 			...body,
 			password: hashedPassword,
+		});
+
+		await this.tsksDb.createTask({
+			tasks: [],
+			userId: response.id,
 		});
 
 		const payloadToken = {

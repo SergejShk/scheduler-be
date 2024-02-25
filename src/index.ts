@@ -4,6 +4,7 @@ import { migrate } from "drizzle-orm/node-postgres/migrator";
 import dotenv from "dotenv";
 
 import { UsersDb } from "./database/usersDb";
+import { TasksDb } from "./database/tasksDb";
 
 import { AuthService } from "./services/authService";
 
@@ -34,9 +35,10 @@ const serverStart = async () => {
 
 		// dbs
 		const usersDb = new UsersDb(db);
+		const tasksDb = new TasksDb(db);
 
 		// services
-		const authService = new AuthService(usersDb);
+		const authService = new AuthService(usersDb, tasksDb);
 
 		// middlewares
 		const authMiddlewares = new AuthMiddlewares(usersDb);
