@@ -14,4 +14,7 @@ export class TasksDb {
 			.then((res) => res[0]);
 
 	public getTasks = async (userId: number) => this.db.select().from(tasks).where(eq(tasks.userId, userId));
+
+	public updateTasks = async (updTasks: NewTask) =>
+		this.db.update(tasks).set(updTasks).where(eq(tasks.userId, updTasks.userId)).returning();
 }

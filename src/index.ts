@@ -7,10 +7,12 @@ import { UsersDb } from "./database/usersDb";
 import { TasksDb } from "./database/tasksDb";
 
 import { AuthService } from "./services/authService";
+import { TasksService } from "./services/tasksService";
 
 import { AuthMiddlewares } from "./middlewares/authMiddlewares";
 
 import { AuthController } from "./controllers/AuthController";
+import { TasksController } from "./controllers/TasksController";
 
 import App from "./app";
 
@@ -39,14 +41,16 @@ const serverStart = async () => {
 
 		// services
 		const authService = new AuthService(usersDb, tasksDb);
+		const tasksService = new TasksService(tasksDb);
 
 		// middlewares
 		const authMiddlewares = new AuthMiddlewares(usersDb);
 
 		//controllers
 		const authController = new AuthController(authService, authMiddlewares);
+		const tasksController = new TasksController(tasksService, authMiddlewares);
 
-		const app = new App(PORT, [authController]);
+		const app = new App(PORT, [authController, tasksController]);
 
 		app.listen();
 	} catch (error: any) {
