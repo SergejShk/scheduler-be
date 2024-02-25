@@ -1,8 +1,6 @@
 import { pgTable, serial, varchar, jsonb } from "drizzle-orm/pg-core";
 import { type InferSelectModel, type InferInsertModel } from "drizzle-orm";
 
-import { ITask } from "@/interfaces/tasks";
-
 const users = pgTable("users", {
 	id: serial("id").primaryKey().notNull(),
 	email: varchar("email").notNull(),

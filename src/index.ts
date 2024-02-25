@@ -1,7 +1,15 @@
 import { Pool } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
-// import { migrate } from "drizzle-orm/node-postgres/migrator";
+import { migrate } from "drizzle-orm/node-postgres/migrator";
 import dotenv from "dotenv";
+
+import { UsersDb } from "./database/usersDb";
+
+import { AuthService } from "./services/authService";
+
+import { AuthMiddlewares } from "./middlewares/authMiddlewares";
+
+import { AuthController } from "./controllers/AuthController";
 
 import App from "./app";
 
@@ -15,24 +23,28 @@ const serverStart = async () => {
 	try {
 		const pool = new Pool({
 			connectionString: DATABASE_URL,
-			ssl: STAGE === "LOCAL" ? false : true,
+			ssl: true,
 		});
 		const db = drizzle(pool, {
 			logger: STAGE === "LOCAL" ? true : false,
 		});
 
 		// migrations
-		// await migrate(db, { migrationsFolder: "./migrations" });
+		await migrate(db, { migrationsFolder: "./migrations" });
 
 		// dbs
+		const usersDb = new UsersDb(db);
 
 		// services
+		const authService = new AuthService(usersDb);
 
 		// middlewares
+		const authMiddlewares = new AuthMiddlewares(usersDb);
 
 		//controllers
+		const authController = new AuthController(authService, authMiddlewares);
 
-		const app = new App(PORT, []);
+		const app = new App(PORT, [authController]);
 
 		app.listen();
 	} catch (error: any) {
