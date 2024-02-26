@@ -27,7 +27,7 @@ export default class App {
 
 		this.app.use(
 			cors({
-				origin: "*",
+				origin: [process.env.FE_BASE_URL || ""],
 				methods: ["GET", "PATCH", "POST", "DELETE", "OPTIONS", "PUT", "HEAD"],
 				preflightContinue: false,
 				optionsSuccessStatus: 204,
