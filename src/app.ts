@@ -27,7 +27,7 @@ export default class App {
 
 		this.app.use(
 			cors({
-				origin: [process.env.FE_BASE_URL || ""],
+				origin: [process.env.FE_BASE_URL || `${process.env.FE_BASE_URL}/scheduler` || ""],
 				methods: ["GET", "PATCH", "POST", "DELETE", "OPTIONS", "PUT", "HEAD"],
 				preflightContinue: false,
 				optionsSuccessStatus: 204,
