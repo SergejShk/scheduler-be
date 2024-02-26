@@ -4,8 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "vercel dev",
-		"deploy": "vercel deploy --prod",
+		"start": "node src/index.js",
 		"dev": "nodemon src/index.ts",
 		"build": "tsc -p tsconfig.json",
 		"migrate": "drizzle-kit generate:pg",
