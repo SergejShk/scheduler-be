@@ -25,16 +25,7 @@ export default class App {
 			})
 		);
 
-		this.app.use(
-			cors({
-				origin: [process.env.FE_BASE_URL || ""],
-				methods: ["GET", "PATCH", "POST", "DELETE", "OPTIONS", "PUT", "HEAD"],
-				preflightContinue: false,
-				optionsSuccessStatus: 204,
-				exposedHeaders: "X-Total-Count",
-				credentials: true,
-			})
-		);
+		this.app.use(cors());
 	};
 
 	private initializeControllers = () => {
